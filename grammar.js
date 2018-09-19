@@ -3,6 +3,14 @@ module.exports = grammar({
 
   rules: {
     // The production rules of the context-free grammar
-    source_file: $ => 'hello'
+    source_file: $ => repeat($._definition),
+
+    _definition: $ => choice(
+      $.directive_definition
+    ),
+
+    directive_definition: $ => seq(
+      '#import'
+    ),
   }
 });

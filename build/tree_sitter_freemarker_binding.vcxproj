@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AC0369F2-CA72-83F8-4DBF-B82373C5E4E0}</ProjectGuid>
+    <ProjectGuid>{684DDA97-5FC7-78B4-CAF2-2B575AD1D174}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>tree_sitter_freemarker_binding</RootNamespace>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
