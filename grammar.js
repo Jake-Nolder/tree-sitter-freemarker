@@ -1,5 +1,5 @@
 module.exports = grammar({
-  name: 'the_language_name',
+  name: 'freemarker',
 
   rules: {
     // The production rules of the context-free grammar
