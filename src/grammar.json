@@ -14,6 +14,27 @@
         {
           "type": "SYMBOL",
           "name": "directive_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "function_definition"
+        }
+      ]
+    },
+    "function_definition": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<#function"
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        },
+        {
+          "type": "STRING",
+          "value": "</#function>"
         }
       ]
     },
@@ -21,8 +42,202 @@
       "type": "SEQ",
       "members": [
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "<#"
+            },
+            {
+              "type": "STRING",
+              "value": "</#"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_name"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ">"
+            },
+            {
+              "type": "STRING",
+              "value": "/>"
+            }
+          ]
+        }
+      ]
+    },
+    "_name": {
+      "type": "CHOICE",
+      "members": [
+        {
           "type": "STRING",
-          "value": "#import"
+          "value": "assign"
+        },
+        {
+          "type": "STRING",
+          "value": "attempt"
+        },
+        {
+          "type": "STRING",
+          "value": "autoesc"
+        },
+        {
+          "type": "STRING",
+          "value": "break"
+        },
+        {
+          "type": "STRING",
+          "value": "case"
+        },
+        {
+          "type": "STRING",
+          "value": "compress"
+        },
+        {
+          "type": "STRING",
+          "value": "continue"
+        },
+        {
+          "type": "STRING",
+          "value": "default"
+        },
+        {
+          "type": "STRING",
+          "value": "else"
+        },
+        {
+          "type": "STRING",
+          "value": "elseif"
+        },
+        {
+          "type": "STRING",
+          "value": "escape"
+        },
+        {
+          "type": "STRING",
+          "value": "fallback"
+        },
+        {
+          "type": "STRING",
+          "value": "function"
+        },
+        {
+          "type": "STRING",
+          "value": "flush"
+        },
+        {
+          "type": "STRING",
+          "value": "ftl"
+        },
+        {
+          "type": "STRING",
+          "value": "global"
+        },
+        {
+          "type": "STRING",
+          "value": "if"
+        },
+        {
+          "type": "STRING",
+          "value": "import"
+        },
+        {
+          "type": "STRING",
+          "value": "include"
+        },
+        {
+          "type": "STRING",
+          "value": "items"
+        },
+        {
+          "type": "STRING",
+          "value": "list"
+        },
+        {
+          "type": "STRING",
+          "value": "local"
+        },
+        {
+          "type": "STRING",
+          "value": "lt"
+        },
+        {
+          "type": "STRING",
+          "value": "macro"
+        },
+        {
+          "type": "STRING",
+          "value": "nested"
+        },
+        {
+          "type": "STRING",
+          "value": "noautoesc"
+        },
+        {
+          "type": "STRING",
+          "value": "noescape"
+        },
+        {
+          "type": "STRING",
+          "value": "noparse"
+        },
+        {
+          "type": "STRING",
+          "value": "nt"
+        },
+        {
+          "type": "STRING",
+          "value": "outputformat"
+        },
+        {
+          "type": "STRING",
+          "value": "recover"
+        },
+        {
+          "type": "STRING",
+          "value": "recurse"
+        },
+        {
+          "type": "STRING",
+          "value": "return"
+        },
+        {
+          "type": "STRING",
+          "value": "rt"
+        },
+        {
+          "type": "STRING",
+          "value": "sep"
+        },
+        {
+          "type": "STRING",
+          "value": "setting"
+        },
+        {
+          "type": "STRING",
+          "value": "stop"
+        },
+        {
+          "type": "STRING",
+          "value": "switch"
+        },
+        {
+          "type": "STRING",
+          "value": "t"
+        },
+        {
+          "type": "STRING",
+          "value": "visit"
         }
       ]
     }

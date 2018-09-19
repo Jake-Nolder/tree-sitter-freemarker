@@ -1,1 +1,6 @@
-#import
+<#import>
+<#function exampleFunction >
+	<#assign test='comment' />
+</#function>
+<#assign />
+<#assign>
