@@ -1,6 +1,76 @@
-<#import>
-<#function exampleFunction >
-	<#assign test='comment' />
+<#assign nameN=valueN>
+<#assign nameN=valueN in namespacehash>
+<#flush>
+<#ftl paramN=valueN>
+<#global nameN=valueN>
+<#import path as hash>
+<#include path>
+<#include path options>
+<#local nameN=valueN>
+<#nt>
+<#setting name=value>
+<#stop>
+<#stop reason>
+<#t>
+<#lt>
+<#rt>
+<#visit node>
+<#visit node using namespace>
+<#recurse node>
+<#recurse using namespace>
+<#recurse node using namespace>
+
+
+
+
+
+<#assign name in namespacehash>
+<#assign name>
+<#attempt>
+<#autoesc>
+<#compress>
+<#function name paramN>
+<#function name paramN=valueN>
+<#global name>
+<#if conditionN>
+<#items as item>
+<#list sequence>
+<#list sequence as item>
+<#list hash as key, value>
+<#local name>
+<#macro name paramN>
+<#macro name paramN=valueN>
+<#noautoesc>
+<#noparse>
+<#outputformat formatName>
+<#switch value>
+<#recurse>
+
+<#break>
+<#case refValueN>
+<#continue>
+<#default>
+<#endif conditionN>
+<#else>
+<#nested>
+<#nested loopvarN>
+<#recover>
+<#return>
+<#return returnValue>
+<#sep>
+
+</#assign>
+</#attempt>
+</#autoesc>
+</#compress>
+</#fallback>
 </#function>
-<#assign />
-<#assign>
+</#global>
+</#if>
+</#items>
+</#list>
+</#local>
+</#macro>
+</#noautoesc>
+</#noparse>
+</#outputformat>
