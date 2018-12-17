@@ -50,7 +50,7 @@ module.exports = grammar({
       $.unary_expression,
       $.binary_expression,
 			$.number,
-			$.alphnumerical,
+			$.alphanumerical,
 			$.asciiSymbol
 			// TODO: other kinds of expressions
 		),
@@ -70,7 +70,7 @@ module.exports = grammar({
 
 		identifier: $ => /[a-z]+/,
 
-		alphnumerical: $ => /[a-zA-Z0-9]+/,
+		alphanumerical: $ => /[a-zA-Z0-9]+/,
 
 		asciiSymbol: $ => /[\!-\@\[-\`\{-\~]/,
 

@@ -1,17 +1,18 @@
 {
   "name": "tree-sitter-freemarker",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Tree-sitter Parser for the Freemarker language",
   "main": "index.js",
-  "scripts": {
-    "test": "echo Hello World"
-  },
+  "keywords": [
+    "parser",
+    "freemarker"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jake-Nolder/tree-sitter-freemarker.git"
+    "url": "https://github.com/Jake-Nolder/tree-sitter-freemarker.git"
   },
   "author": "nolder30",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Jake-Nolder/tree-sitter-freemarker/issues"
   },
@@ -21,5 +22,9 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.13.10"
+  },
+  "scripts": {
+    "build": "tree-sitter generate && node-gyp build",
+    "test": "tree-sitter test && tree-sitter parse examples --quiet --time"
   }
 }

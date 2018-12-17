@@ -1,0 +1,41 @@
+===================================
+Lists
+===================================
+<#list>
+  <#items names as name>
+    <#assign theirName = name />
+  </#items>
+</#list>
+---
+(source_file
+  (ftlTag_definition
+    (ftlTag_start)
+    (ftlTag_end)
+  )
+  (ftlTag_definition
+    (ftlTag_start
+      (binary_expression
+        (identifier)
+        (identifier)
+      )
+    )
+    (ftlTag_end)
+  )
+  (ftlTag_definition
+    (ftlTag_start
+      (binary_expression
+        (alphanumerical)
+        (identifier)
+      )
+    )
+    (ftlTag_end)
+  )
+  (ftlTag_definition
+    (ftlTag_start)
+    (ftlTag_end)
+  )
+  (ftlTag_definition
+    (ftlTag_start)
+    (ftlTag_end)
+  )
+)
