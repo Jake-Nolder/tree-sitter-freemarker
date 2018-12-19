@@ -1,0 +1,11 @@
+<#assign param=true >
+<#if param=false>
+  <#list arrays as array>
+    <#assign turkey=done>
+    <#else>
+    <#assign bomb=yes>
+  </#list>
+<#else>
+  <#assign turkey=fail >
+  <#stop>
+</#if>

@@ -17,6 +17,7 @@ module.exports = grammar({
 			$.flush,
 			$.ftl,
 			$.function,
+			$.if,
 			$.global,
 			$.import,
 			$.include,
@@ -35,12 +36,14 @@ module.exports = grammar({
 		),
 
 		directiveType: $ => choice(
-			prec(1, $.single),
+			$.single,
 			$.block
 		),
 
-		single: $ => seq(
-			$.start
+		single: $ => prec(1,
+			seq(
+				$.start
+			)
 		),
 
 		block: $ => seq(
@@ -56,6 +59,9 @@ module.exports = grammar({
 		),
 
 		middle: $ => choice(
+			$._definition,
+			$.else,
+			$.elseif,
 			$.continue,
 			$.items,
 			$.nested,
@@ -69,7 +75,7 @@ module.exports = grammar({
 			$.end_block
 		),
 
-		end_single: $ => />/,
+		end_single: $ => /\s\>|\>/,
 
 		end_block: $ => /\<\/\#.*\>/,
 
@@ -98,14 +104,6 @@ module.exports = grammar({
 		binary_expression: $ => choice(
 			prec.left(1, seq($.expression, $.operator, $.expression))
 		),
-
-		// list: $ => choice(
-		// 	prec.left(1, seq($.collection, $.operator, $.parameters))
-		// ),
-
-		// collection: $ => seq(
-		// 	$._identifier
-		// ),
 
 		expression: $ => /[a-zA-Z0-9\_]+/,
 
@@ -151,6 +149,11 @@ module.exports = grammar({
 			'<#else>'
 		),
 
+		elseif: $ => seq(
+			'<#elseif',
+			$.single
+		),
+
 		flush: $ => seq(
 			'<#flush',
 			$.single
@@ -171,7 +174,10 @@ module.exports = grammar({
 			$.directiveType
 		),
 
-		//if, else, else
+		if: $ => seq(
+			'<#if',
+			$.block
+		),
 
 		import: $ => seq(
 			'<#import',
@@ -241,7 +247,7 @@ module.exports = grammar({
 			'>'
 		),
 
-		seq: $ => seq(
+		sep: $ => seq(
 			'<#sep',
 			$.directiveType
 		),

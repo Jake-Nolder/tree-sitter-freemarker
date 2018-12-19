@@ -50,6 +50,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "if"
+        },
+        {
+          "type": "SYMBOL",
           "name": "global"
         },
         {
@@ -59,6 +63,10 @@
         {
           "type": "SYMBOL",
           "name": "include"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "list"
         },
         {
           "type": "SYMBOL",
@@ -110,12 +118,8 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "PREC",
-          "value": 1,
-          "content": {
-            "type": "SYMBOL",
-            "name": "single"
-          }
+          "type": "SYMBOL",
+          "name": "single"
         },
         {
           "type": "SYMBOL",
@@ -124,13 +128,17 @@
       ]
     },
     "single": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "start"
-        }
-      ]
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "start"
+          }
+        ]
+      }
     },
     "block": {
       "type": "SEQ",
@@ -185,7 +193,31 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "_definition"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "else"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "elseif"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "continue"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "items"
+        },
+        {
+          "type": "SYMBOL",
           "name": "nested"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "sep"
         },
         {
           "type": "SYMBOL",
@@ -212,7 +244,7 @@
     },
     "end_single": {
       "type": "PATTERN",
-      "value": ">"
+      "value": "\\s\\>|\\>"
     },
     "end_block": {
       "type": "PATTERN",
@@ -372,6 +404,15 @@
         }
       ]
     },
+    "break": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<#break>"
+        }
+      ]
+    },
     "compress": {
       "type": "SEQ",
       "members": [
@@ -382,6 +423,37 @@
         {
           "type": "SYMBOL",
           "name": "block"
+        }
+      ]
+    },
+    "continue": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<#continue>"
+        }
+      ]
+    },
+    "else": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<#else>"
+        }
+      ]
+    },
+    "elseif": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<#elseif"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "single"
         }
       ]
     },
@@ -437,6 +509,19 @@
         }
       ]
     },
+    "if": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<#if"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        }
+      ]
+    },
     "import": {
       "type": "SEQ",
       "members": [
@@ -460,6 +545,32 @@
         {
           "type": "SYMBOL",
           "name": "single"
+        }
+      ]
+    },
+    "items": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<#items"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        }
+      ]
+    },
+    "list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<#list"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
         }
       ]
     },
@@ -585,6 +696,19 @@
         {
           "type": "STRING",
           "value": ">"
+        }
+      ]
+    },
+    "sep": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<#sep"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "directiveType"
         }
       ]
     },

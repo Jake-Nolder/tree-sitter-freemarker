@@ -20,5 +20,5 @@
 </#list>
 
 <#list sequence as item>
-  <#contine>
+  <#continue>
 </#list>

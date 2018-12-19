@@ -26,7 +26,7 @@
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test && tree-sitter parse examples --quiet --time",
-    "debug": "tree-sitter parse examples/autoesc_example.txt",
+    "debug": "tree-sitter parse examples/combined.txt",
     "debugLoud": "tree-sitter parse examples/loop_example.txt --debug",
     "debug_assign": "tree-sitter parse examples/assign_example.txt",
     "debug_attempt_recover": "tree-sitter parse examples/attempt_recover_example.txt",
@@ -36,6 +36,7 @@
     "debug_ftl": "tree-sitter parse examples/ftl_example.txt",
     "debug_function": "tree-sitter parse examples/function_example.txt",
     "debug_global": "tree-sitter parse examples/global_example.txt",
+    "debug_if": "tree-sitter parse examples/if_example.txt",
     "debug_import": "tree-sitter parse examples/import_example.txt",
     "debug_include": "tree-sitter parse examples/include_example.txt",
     "debug_list": "tree-sitter parse examples/list_example.txt",
