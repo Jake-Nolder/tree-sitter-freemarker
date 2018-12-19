@@ -1,0 +1,7 @@
+<#global name=value>
+
+<#global name1=value1 name2=value2 name3=value3>
+
+<#global paramName>
+
+</#global>

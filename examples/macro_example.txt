@@ -1,0 +1,7 @@
+<#macro name param1 param2 param2>
+
+  <#nested looVar1, loopVar2, loopVar3 >
+
+  <#return>
+
+</#macro>

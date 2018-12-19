@@ -1,0 +1,24 @@
+<#list sequence as item>
+</#list>
+
+<#list sequence as item>
+<#else>
+</#list>
+
+<#list sequence>
+  <#items as itemValue>
+  </#items>
+<#else>
+</#list>
+
+<#list sequence as item>
+  <#sep>
+</#list>
+
+<#list sequence as item>
+  <#sep></#sep>
+</#list>
+
+<#list sequence as item>
+  <#contine>
+</#list>

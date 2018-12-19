@@ -1,5 +1,0 @@
-<#list>
-  <#items names as name>
-    <#assign theirName = name />
-  </#items>
-</#loop>

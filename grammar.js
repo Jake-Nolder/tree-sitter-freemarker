@@ -6,86 +6,274 @@ module.exports = grammar({
 		source_file: $ => repeat($._definition),
 
 		_definition: $ => choice(
-			$.interpolation_definition,
-			$.ftlTag_definition,
-			$.comments_definition,
-			$._expression
+			$.directive
 		),
 
-		interpolation_definition: $ => seq(
-			'${',
-			repeat($.ftlTag_definition),
-			'}'
+		directive: $ => choice(
+			$.assign,
+			$.attempt,
+			$.autoesc,
+			$.compress,
+			$.flush,
+			$.ftl,
+			$.function,
+			$.global,
+			$.import,
+			$.include,
+			$.list,
+			$.local,
+			$.lt,
+			$.macro,
+			$.noautoesc,
+			$.noparse,
+			$.nt,
+			$.outputformat,
+			$.rt,
+			$.setting,
+			$.stop,
+			$.t
 		),
 
-		comments_definition: $ => seq(
-			'<#--',
-			repeat($._expression),
-			'-->'
+		directiveType: $ => choice(
+			prec(1, $.single),
+			$.block
 		),
 
-		ftlTag_definition: $ => seq(
-			$.ftlTag_start,
-			repeat($._block),
-			$.ftlTag_end
+		single: $ => seq(
+			$.start
 		),
 
-		ftlTag_start: $ => seq(
-			choice('<#', '</#'),
-			repeat($._name),
-			repeat($._parameters)
+		block: $ => seq(
+			$.start,
+			repeat($.middle),
+			$._end
 		),
 
-		ftlTag_end: $ => choice(
-			'>',
-			'/>'
+		start: $ => seq(
+			optional($.name),
+			repeat($.parameter_pattern),
+			$._end
 		),
 
-		_parameters: $ => seq(
-			$._expression
+		middle: $ => choice(
+			$.continue,
+			$.items,
+			$.nested,
+			$.sep,
+			$.recover,
+			$.return
 		),
 
-		_expression: $ => choice(
-			$.identifier,
-      $.unary_expression,
-      $.binary_expression,
-			$.number,
-			$.alphanumerical,
-			$.asciiSymbol
-			// TODO: other kinds of expressions
+		_end: $ => choice(
+			$.end_single,
+			$.end_block
+		),
+
+		end_single: $ => />/,
+
+		end_block: $ => /\<\/\#.*\>/,
+
+		parameter_pattern: $ => choice(
+			$.paramPattern1,
+			$.paramPattern2,
+			$.paramPattern3,
+			$.binary_expression
+		),
+
+		paramPattern1: $ => seq(
+			$.parameter
+		),
+
+		paramPattern2: $ => seq(
+			$.parameter,
+			','
+		),
+
+		paramPattern3: $ => seq(
+			$.parameter,
+			'=',
+			$.expression
 		),
 
 		binary_expression: $ => choice(
-			prec.left(1, seq($._expression, '=', $._expression)),
-			prec.left(2, seq($._expression, 'as', $._expression)),
-			prec.left(3, seq($._expression, 'using', $._expression))
-				// ...
+			prec.left(1, seq($.expression, $.operator, $.expression))
 		),
 
-		unary_expression: $ => choice(
-			prec.left(2, seq('in', $._expression)),
-			prec.left(2, seq(',', $._expression))
-			// ...
+		// list: $ => choice(
+		// 	prec.left(1, seq($.collection, $.operator, $.parameters))
+		// ),
+
+		// collection: $ => seq(
+		// 	$._identifier
+		// ),
+
+		expression: $ => /[a-zA-Z0-9\_]+/,
+
+		identifier: $ => prec(1, /[a-zA-Z0-9\_]+/),
+
+		name: $ => $.identifier,
+
+		parameter: $ => /[a-zA-Z0-9\_]+/,
+
+		operator: $ => choice(
+			'as'
 		),
 
-		identifier: $ => /[a-z]+/,
-
-		alphanumerical: $ => /[a-zA-Z0-9]+/,
-
-		asciiSymbol: $ => /[\!-\@\[-\`\{-\~]/,
-
-		number: $ => /\d+/,
-
-		_block: $ => seq(
-			$.directive_definition
+		assign: $ => seq(
+			'<#assign',
+			$.directiveType
 		),
 
-		directive_definition: $ => seq(
-			choice('<#'),
-			repeat($._name),
-			// TODO: Directive Parameters
-			choice('>', '/>')
+		attempt: $ => seq(
+			'<#attempt',
+			$.single
 		),
+
+		autoesc: $ => seq(
+			'<#autoesc',
+			$.block
+		),
+
+		break: $ => seq(
+			'<#break>'
+		),
+
+		compress: $ => seq(
+			'<#compress',
+			$.block
+		),
+
+		continue: $ => seq(
+			'<#continue>'
+		),
+
+		else: $ => seq(
+			'<#else>'
+		),
+
+		flush: $ => seq(
+			'<#flush',
+			$.single
+		),
+
+		ftl: $ => seq(
+			'<#ftl',
+			$.single
+		),
+
+		function: $ => seq(
+			'<#function',
+			$.block
+		),
+
+		global: $ => seq(
+			'<#global',
+			$.directiveType
+		),
+
+		//if, else, else
+
+		import: $ => seq(
+			'<#import',
+			$.single
+		),
+
+		include: $ => seq(
+			'<#include',
+			$.single
+		),
+
+		items: $ => seq(
+			'<#items',
+			$.block
+		),
+
+		//list, else, items, sep,break, continue
+
+		list: $ => seq(
+			'<#list',
+			$.block
+		),
+
+		local: $ => seq(
+			'<#local',
+			$.directiveType
+		),
+
+		macro: $ => seq(
+			'<#macro',
+			$.block
+		),
+		//marco, nested, return
+
+		nested: $ => seq(
+			'<#nested',
+			$.single
+		),
+
+		noautoesc: $ => seq(
+			'<#noautoesc',
+			$.block
+		),
+
+		noparse: $ => seq(
+			'<#noparse',
+			$.block
+		),
+
+		nt: $ => seq(
+			'<#nt',
+			$.single
+		),
+
+		outputformat: $ => seq(
+			'<#outputformat',
+			$.block
+		),
+
+		recover: $ => seq(
+			'<#recover>'
+		),
+
+		return: $ => seq(
+			'<#return',
+			optional($.expression),
+			'>'
+		),
+
+		seq: $ => seq(
+			'<#sep',
+			$.directiveType
+		),
+
+		setting: $ => seq( //NEW
+			'<#setting',
+			$.single
+		),
+
+		stop: $ => seq( //NEW
+			'<#stop',
+			$.single
+		),
+
+		//switch, case, default, break
+
+		t: $ => seq( //NEW
+			'<#t',
+			$.single
+		),
+
+		lt: $ => seq( //NEW
+			'<#lt',
+			$.single
+		),
+
+		rt: $ => seq( //NEW
+			'<#rt',
+			$.single
+		),
+
+		//visit, recurse, fallback
 
 		_name: $ => choice(
 			'assign',
