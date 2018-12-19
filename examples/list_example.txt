@@ -16,7 +16,8 @@
 </#list>
 
 <#list sequence as item>
-  <#sep></#sep>
+  <#sep>
+  </#sep>
 </#list>
 
 <#list sequence as item>

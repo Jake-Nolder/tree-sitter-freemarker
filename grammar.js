@@ -194,8 +194,6 @@ module.exports = grammar({
 			$.block
 		),
 
-		//list, else, items, sep,break, continue
-
 		list: $ => seq(
 			'<#list',
 			$.block
@@ -210,7 +208,6 @@ module.exports = grammar({
 			'<#macro',
 			$.block
 		),
-		//marco, nested, return
 
 		nested: $ => seq(
 			'<#nested',
@@ -261,8 +258,6 @@ module.exports = grammar({
 			'<#stop',
 			$.single
 		),
-
-		//switch, case, default, break
 
 		t: $ => seq( //NEW
 			'<#t',
