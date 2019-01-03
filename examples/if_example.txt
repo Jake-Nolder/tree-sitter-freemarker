@@ -1,5 +1,10 @@
 <#if condition>
-<#elseif condition2>
-<#elseif condition3>
+  <#if condition>
+  <#elseif condition>
+    <#if condition>
+    </#if>
+  <#else>
+  </#if>
+<#elseif condition>
 <#else>
 </#if>

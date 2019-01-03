@@ -1,322 +1,166 @@
 module.exports = grammar({
-	name: 'freemarker',
+  name: 'freemarker',
 
-	rules: {
-		// The production rules of the context-free grammar
-		source_file: $ => repeat($._definition),
+  rules: {
+    // The production rules of the context-free grammar
+    source_file: $ => repeat($._definition),
 
-		_definition: $ => choice(
-			$.directive
-		),
+    _definition: $ => choice(
+      $.directive
+    ),
 
-		directive: $ => choice(
-			$.assign,
-			$.attempt,
-			$.autoesc,
-			$.compress,
-			$.flush,
-			$.ftl,
-			$.function,
-			$.if,
-			$.global,
-			$.import,
-			$.include,
-			$.list,
-			$.local,
-			$.lt,
-			$.macro,
-			$.noautoesc,
-			$.noparse,
-			$.nt,
-			$.outputformat,
-			$.rt,
-			$.setting,
-			$.stop,
-			$.t
-		),
+    directive: $ => choice(
+      $.if,
+      $.list,
+      $.switch
+    ),
 
-		directiveType: $ => choice(
-			$.single,
-			$.block
-		),
+    parameter_pattern: $ => choice(
+      $.paramPattern1,
+      $.paramPattern2,
+      $.paramPattern3,
+      $.binary_expression,
+      $.unary_expression
+    ),
 
-		single: $ => prec(1,
-			seq(
-				$.start
-			)
-		),
+    paramPattern1: $ => seq(
+      $.parameter
+    ),
 
-		block: $ => seq(
-			$.start,
-			repeat($.middle),
-			$._end
-		),
+    paramPattern2: $ => seq(
+      $.parameter,
+      ','
+    ),
 
-		start: $ => seq(
-			optional($.name),
-			repeat($.parameter_pattern),
-			$._end
-		),
+    paramPattern3: $ => seq(
+      $.parameter,
+      '=',
+      $.expression
+    ),
 
-		middle: $ => choice(
-			$._definition,
-			$.else,
-			$.elseif,
-			$.continue,
-			$.items,
-			$.nested,
-			$.sep,
-			$.recover,
-			$.return
-		),
+    unary_expression: $ => choice(
+      prec.left(1, seq($.operator, $.expression))
+    ),
 
-		_end: $ => choice(
-			$.end_single,
-			$.end_block
-		),
+    binary_expression: $ => choice(
+      prec.left(1, seq($.expression, $.operator, $.expression))
+    ),
 
-		end_single: $ => /\s\>|\>/,
+    expression: $ => /[a-zA-Z0-9\_]+/,
 
-		end_block: $ => /\<\/\#.*\>/,
+    identifier: $ => prec(1, /[a-zA-Z0-9\_]+/),
 
-		parameter_pattern: $ => choice(
-			$.paramPattern1,
-			$.paramPattern2,
-			$.paramPattern3,
-			$.binary_expression
-		),
+    name: $ => $.identifier,
 
-		paramPattern1: $ => seq(
-			$.parameter
-		),
+    parameter: $ => /[a-zA-Z0-9\_]+/,
 
-		paramPattern2: $ => seq(
-			$.parameter,
-			','
-		),
+    operator: $ => choice(
+      'as'
+    ),
 
-		paramPattern3: $ => seq(
-			$.parameter,
-			'=',
-			$.expression
-		),
+    /********** LIST EXPRESSION **************/
 
-		binary_expression: $ => choice(
-			prec.left(1, seq($.expression, $.operator, $.expression))
-		),
+    list: $ => seq(
+      seq('<#list', $.parameter_pattern, '>'),
+      repeat($.list_middle),
+      optional($.else),
+      seq('</#list>')
+    ),
 
-		expression: $ => /[a-zA-Z0-9\_]+/,
+    list_middle: $ => choice(
+      $.break,
+      $.continue,
+      $.directive,
+      $.items,
+      $.sep
+    ),
 
-		identifier: $ => prec(1, /[a-zA-Z0-9\_]+/),
+    items_middle: $ => choice(
+      $.break,
+      $.continue,
+      $.directive,
+      $.sep
+    ),
 
-		name: $ => $.identifier,
+    break: $ => seq(
+      '<#break>'
+    ),
 
-		parameter: $ => /[a-zA-Z0-9\_]+/,
+    continue: $ => seq(
+      '<#continue>'
+    ),
 
-		operator: $ => choice(
-			'as'
-		),
+    else: $ => seq(
+      '<#else>',
+      repeat($.directive)
+    ),
 
-		assign: $ => seq(
-			'<#assign',
-			$.directiveType
-		),
+    items: $ => seq(
+      seq('<#items', $.parameter_pattern, '>'),
+      repeat($.items_middle),
+      seq('</#items>')
+    ),
 
-		attempt: $ => seq(
-			'<#attempt',
-			$.single
-		),
+    sep: $ => choice(
+      '<#sep>',
+      $.sep_block
+    ),
 
-		autoesc: $ => seq(
-			'<#autoesc',
-			$.block
-		),
+    sep_block: $ => seq(
+      '<#sep>',
+      '</#sep>'
+    ),
 
-		break: $ => seq(
-			'<#break>'
-		),
+    /********** END LIST EXPRESSION **************/
 
-		compress: $ => seq(
-			'<#compress',
-			$.block
-		),
+    /********** IF EXPRESSION ***********/
 
-		continue: $ => seq(
-			'<#continue>'
-		),
+    if: $ => seq(
+      seq('<#if', $.parameter_pattern, '>'),
+      repeat($.if_middle),
+      optional($.else),
+      seq('</#if>')
+    ),
 
-		else: $ => seq(
-			'<#else>'
-		),
+    elseif: $ => seq(
+      seq('<#elseif', $.parameter_pattern, '>'),
+      repeat($.directive)
+    ),
 
-		elseif: $ => seq(
-			'<#elseif',
-			$.single
-		),
+    if_middle: $ => choice(
+      $.elseif,
+      //$.directive
+    ),
 
-		flush: $ => seq(
-			'<#flush',
-			$.single
-		),
+    /********** END IF EXPRESSION ***********/
 
-		ftl: $ => seq(
-			'<#ftl',
-			$.single
-		),
+    /********** SWITCH EXPRESSION ***********/
 
-		function: $ => seq(
-			'<#function',
-			$.block
-		),
+    switch: $ => seq(
+      seq('<#switch', $.parameter_pattern, '>'),
+      repeat($.switch_middle),
+      optional($.default),
+      seq('</#switch>')
+    ),
 
-		global: $ => seq(
-			'<#global',
-			$.directiveType
-		),
+    case: $ => seq(
+      seq('<#case', $.parameter_pattern, '>'),
+      repeat($.directive),
+      repeat($.break)
+    ),
 
-		if: $ => seq(
-			'<#if',
-			$.block
-		),
+    default: $ => seq(
+      '<#default>',
+      repeat($.directive)
+    ),
 
-		import: $ => seq(
-			'<#import',
-			$.single
-		),
+    switch_middle: $ => choice(
+      $.case,
+      //$.directive
+    )
 
-		include: $ => seq(
-			'<#include',
-			$.single
-		),
+    /********** END SWITCH EXPRESSION ***********/
 
-		items: $ => seq(
-			'<#items',
-			$.block
-		),
+  }
 
-		list: $ => seq(
-			'<#list',
-			$.block
-		),
-
-		local: $ => seq(
-			'<#local',
-			$.directiveType
-		),
-
-		macro: $ => seq(
-			'<#macro',
-			$.block
-		),
-
-		nested: $ => seq(
-			'<#nested',
-			$.single
-		),
-
-		noautoesc: $ => seq(
-			'<#noautoesc',
-			$.block
-		),
-
-		noparse: $ => seq(
-			'<#noparse',
-			$.block
-		),
-
-		nt: $ => seq(
-			'<#nt',
-			$.single
-		),
-
-		outputformat: $ => seq(
-			'<#outputformat',
-			$.block
-		),
-
-		recover: $ => seq(
-			'<#recover>'
-		),
-
-		return: $ => seq(
-			'<#return',
-			optional($.expression),
-			'>'
-		),
-
-		sep: $ => seq(
-			'<#sep',
-			$.directiveType
-		),
-
-		setting: $ => seq( //NEW
-			'<#setting',
-			$.single
-		),
-
-		stop: $ => seq( //NEW
-			'<#stop',
-			$.single
-		),
-
-		t: $ => seq( //NEW
-			'<#t',
-			$.single
-		),
-
-		lt: $ => seq( //NEW
-			'<#lt',
-			$.single
-		),
-
-		rt: $ => seq( //NEW
-			'<#rt',
-			$.single
-		),
-
-		//visit, recurse, fallback
-
-		_name: $ => choice(
-			'assign',
-			'attempt',
-			'autoesc',
-			'break',
-			'case',
-			'compress',
-			'continue',
-			'default',
-			'else',
-			'elseif',
-			'escape',
-			'fallback',
-			'flush',
-			'ftl',
-			'global',
-			'if',
-			'import',
-			'include',
-			'items',
-			'list',
-			'local',
-			'lt',
-			'macro',
-			'nested',
-			'noautoesc',
-			'noescape',
-			'noparse',
-			'nt',
-			'outputformat',
-			'recover',
-			'recurse',
-			'return',
-			'rt',
-			'sep',
-			'setting',
-			'stop',
-			'switch',
-			't',
-			'visit'
-		)
-
-	}
 });

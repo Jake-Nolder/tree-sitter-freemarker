@@ -1,17 +1,22 @@
 <#list sequence as item>
+  <#break>
 </#list>
 
-<#list sequence as item>
+<#list sequence as item  >
+<#else>
+</#list>
+
+<#list sequence as item  >
 <#else>
 </#list>
 
 <#list sequence>
-  <#items as itemValue>
+  <#items as itemValue  >
   </#items>
 <#else>
 </#list>
 
-<#list sequence as item>
+<#list sequence as item >
   <#sep>
 </#list>
 
@@ -22,4 +27,15 @@
 
 <#list sequence as item>
   <#continue>
+</#list>
+
+<#list sequence>
+  <#items as item>
+    <#continue>
+    <#sep>
+    <#if condition>
+    <#elseif condition>
+    <#else>
+    </#if>
+  </#items>
 </#list>

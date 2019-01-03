@@ -1,7 +1,14 @@
 <#switch value>
   <#case refValue1>
+      <#if condition>
+      <#elseif condition=6>
+      <#else>
+      </#if>
     <#break>
   <#case refValue2>
     <#break>
   <#default>
+    <#if condition>
+    <#else>
+    </#if>
 </#switch>
