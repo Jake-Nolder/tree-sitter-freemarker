@@ -2,21 +2,17 @@ After modifying gammar.js reload using:
   npm run-script build
 
 Directives currently included:
-  *if
-   - elseif
-   - else
-
-  * list
-    - else
-    - items
-      - break
-      - continue
-      - sep
-
-  * switch
-    - case
-      - break
-    - default
+* break
+* case
+* continue
+* default
+* else
+* elseif
+* if
+* items
+* list
+* sep
+* switch
 
 Build-ins included:
   Currently they are not supported but will be added once the directives are completed.
