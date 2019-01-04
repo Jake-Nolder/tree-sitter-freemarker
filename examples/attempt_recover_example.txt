@@ -1,5 +1,16 @@
 <#attempt>
 
+  <#if condition>
+  </#if>
+
 <#recover>
+
+  <#list array as item>
+    <#if condition>
+    <#else>
+    </#if>
+    <#else>
+      <#continue>
+  </#list>
 
 </#attempt>

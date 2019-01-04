@@ -1,3 +1,8 @@
 <#function name parameter parameter2 parameter3 >
+
+  <#if condition>
+  <#elseif consition2>
+  </#if>
+
   <#return returnValue>
 </#function>

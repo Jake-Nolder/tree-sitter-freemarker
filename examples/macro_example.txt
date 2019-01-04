@@ -1,7 +1,10 @@
 <#macro name param1 param2 param2>
+  <#nested looVar1, loopVar2, loopVar3>
 
-  <#nested looVar1, loopVar2, loopVar3 >
+  <#list arrayVar>
+    <#items as value>
+    </#items>
+  </#list>
 
   <#return>
-
 </#macro>

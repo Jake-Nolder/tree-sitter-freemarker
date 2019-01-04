@@ -2,15 +2,21 @@ After modifying gammar.js reload using:
 > npm run-script build
 
 Directives currently included:
+* attempt
 * break
 * case
 * continue
 * default
 * else
 * elseif
+* function
 * if
 * items
 * list
+* macro
+* nested
+* recover
+* return
 * sep
 * switch
 

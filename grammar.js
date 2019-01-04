@@ -10,8 +10,11 @@ module.exports = grammar({
     ),
 
     directive: $ => choice(
+      $.attempt,
       $.if,
+      $.function,
       $.list,
+      $.macro,
       $.switch
     ),
 
@@ -52,7 +55,7 @@ module.exports = grammar({
 
     name: $ => $.identifier,
 
-    parameter: $ => /[a-zA-Z0-9\_]+/,
+    parameter: $ => prec(1, /[a-zA-Z0-9\_]+/),
 
     operator: $ => choice(
       'as'
@@ -63,7 +66,7 @@ module.exports = grammar({
     list: $ => seq(
       seq('<#list', $.parameter_pattern, '>'),
       repeat($.list_middle),
-      optional($.else),
+      optional($.list_else),
       seq('</#list>')
     ),
 
@@ -90,9 +93,9 @@ module.exports = grammar({
       '<#continue>'
     ),
 
-    else: $ => seq(
+    list_else: $ => seq(
       '<#else>',
-      repeat($.directive)
+      repeat($.list_middle)
     ),
 
     items: $ => seq(
@@ -118,18 +121,22 @@ module.exports = grammar({
     if: $ => seq(
       seq('<#if', $.parameter_pattern, '>'),
       repeat($.if_middle),
-      optional($.else),
+      optional($.if_else),
       seq('</#if>')
     ),
 
+    if_else: $ => seq(
+      '<#else>',
+      repeat($.if_middle)
+    ),
+
     elseif: $ => seq(
-      seq('<#elseif', $.parameter_pattern, '>'),
-      repeat($.directive)
+      seq('<#elseif', $.parameter_pattern, '>')
     ),
 
     if_middle: $ => choice(
       $.elseif,
-      //$.directive
+      $.directive
     ),
 
     /********** END IF EXPRESSION ***********/
@@ -157,10 +164,67 @@ module.exports = grammar({
     switch_middle: $ => choice(
       $.case,
       //$.directive
-    )
+    ),
 
     /********** END SWITCH EXPRESSION ***********/
 
+    /*********** FUNCTION EXPRESSION  ***********/
+
+    function: $ => seq(
+      seq('<#function', repeat($.parameter_pattern), '>'),
+      repeat($.function_middle),
+      seq('</#function>')
+    ),
+
+    function_middle: $ => choice(
+      $.return,
+      $.directive
+    ),
+
+    return: $ => seq(
+      seq('<#return', optional($.parameter_pattern), '>')
+    ),
+
+    /*********** END FUNCTION EXPRESSION  ***********/
+
+    /*********** MACRO EXPRESSION  ***********/
+
+    macro: $ => seq(
+      seq('<#macro', repeat($.parameter_pattern), '>'),
+      repeat($.macro_middle),
+      seq('</#macro>')
+    ),
+
+    macro_middle: $ => choice(
+      $.nested,
+      $.return,
+      $.directive
+    ),
+
+    nested: $ => seq(
+      seq('<#nested', repeat($.parameter_pattern), '>')
+    ),
+
+    /*********** END MACRO EXPRESSION  ***********/
+
+    /*********** ATTEMPT EXPRESSION  ***********/
+
+    attempt: $ => seq(
+      seq('<#attempt>'),
+      repeat($.attempt_middle),
+      seq('</#attempt>')
+    ),
+
+    attempt_middle: $ => choice(
+      $.recover,
+      $.directive
+    ),
+
+    recover: $ => seq(
+      seq('<#recover>')
+    ),
+
+    /*********** END ATTEMPT EXPRESSION  ***********/
   }
 
 });
