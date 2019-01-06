@@ -30,7 +30,7 @@
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
     "test": "tree-sitter test && tree-sitter parse examples --quiet --time",
-    "debug": "tree-sitter parse examples/macro_example.txt",
+    "debug": "tree-sitter parse examples/combined.txt",
     "debugLoud": "tree-sitter parse examples/macro_example.txt --debug",
     "debug_assign": "tree-sitter parse examples/assign_example.txt",
     "debug_attempt_recover": "tree-sitter parse examples/attempt_recover_example.txt",

@@ -1,12 +1,11 @@
-<#list sequence as item>
-  <#sep>
-</#list>
+<#assign name in namespacehash>
+  <#assign para=val>
+</#assign>
 
-<#list sequence as item>
-  <#sep>
-  </#sep>
-</#list>
+<#global name in namespacehash>
+  <#global para=val>
+</#global>
 
-<#list sequence as item>
-  <#continue>
-</#list>
+<#local name in namespacehash>
+  <#local para=val>
+</#local>

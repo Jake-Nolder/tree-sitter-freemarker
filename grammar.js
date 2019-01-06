@@ -10,12 +10,28 @@ module.exports = grammar({
     ),
 
     directive: $ => choice(
+      $.assign,
       $.attempt,
+      $.fallback,
+      $.flush,
+      $.ftl,
+      $.global,
       $.if,
+      $.import,
+      $.include,
       $.function,
       $.list,
+      $.local,
+      $.lt,
       $.macro,
-      $.switch
+      $.nt,
+      $.recurse,
+      $.rt,
+      $.setting,
+      $.stop,
+      $.switch,
+      $.t,
+      $.visit
     ),
 
     parameter_pattern: $ => choice(
@@ -58,7 +74,8 @@ module.exports = grammar({
     parameter: $ => prec(1, /[a-zA-Z0-9\_]+/),
 
     operator: $ => choice(
-      'as'
+      'as',
+      'using'
     ),
 
     /********** LIST EXPRESSION **************/
@@ -225,6 +242,99 @@ module.exports = grammar({
     ),
 
     /*********** END ATTEMPT EXPRESSION  ***********/
+
+    /*********** SINGLE EXPRESSIONS  ***********/
+
+    fallback: $ => seq(
+      '<#fallback>'
+    ),
+
+    flush: $ => seq(
+      '<#flush>'
+    ),
+
+    ftl: $ => seq(
+      '<#ftl',
+      repeat($.parameter_pattern),
+      '>'
+    ),
+
+    import: $ => seq(
+      '<#import',
+      repeat($.parameter_pattern),
+      '>'
+    ),
+
+    include: $ => seq(
+      '<#include',
+      repeat($.parameter_pattern),
+      '>'
+    ),
+
+    lt: $ => seq(
+      '<#lt>'
+    ),
+
+    nt: $ => seq(
+      '<#nt>'
+    ),
+
+    recurse: $ => seq(
+      '<#recurse',
+      repeat($.parameter_pattern),
+      '>'
+    ),
+
+    rt: $ => seq(
+      '<#rt>'
+    ),
+
+    setting: $ => seq(
+      '<#setting',
+      repeat($.parameter_pattern),
+      '>'
+    ),
+
+    stop: $ => seq(
+      '<#stop>'
+    ),
+
+    t: $ => seq(
+      '<#t>'
+    ),
+
+    visit: $ => seq(
+      '<#visit',
+      repeat($.parameter_pattern),
+      '>'
+    ),
+
+    /*********** END SINGLE EXPRESSIONS  ***********/
+
+    /*********** BLOCK EXPRESSIONS  ***********/
+
+    assign: $ => choice(
+      seq('<#assign', repeat($.parameter_pattern), '>'),
+      $.end_assign
+    ),
+
+    end_assign: $ => seq('</#assign>'),
+
+    global: $ => choice(
+      seq('<#global', repeat($.parameter_pattern), '>'),
+      $.end_global
+    ),
+
+    end_global: $ => seq('</#global>'),
+
+    local: $ => choice(
+      seq('<#local', repeat($.parameter_pattern), '>'),
+      $.end_local
+    ),
+
+    end_local: $ => seq('</#local>'),
+
+    /*********** END BLOCK EXPRESSIONS  ***********/
   }
 
 });
