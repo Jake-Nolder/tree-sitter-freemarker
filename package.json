@@ -22,7 +22,7 @@
   "homepage": "https://github.com/Jake-Nolder/tree-sitter-freemarker#readme",
   "deprecated": false,
   "dependencies": {
-    "nan": "^2.11.0"
+    "nan": "^2.12.1"
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.13.10"

@@ -53,7 +53,7 @@ module.exports = grammar({
 
     paramPattern3: $ => seq(
       $.parameter,
-      '=',
+      $.operator,
       $.expression
     ),
 
@@ -75,7 +75,8 @@ module.exports = grammar({
 
     operator: $ => choice(
       'as',
-      'using'
+      'using',
+      "="
     ),
 
     /********** LIST EXPRESSION **************/
