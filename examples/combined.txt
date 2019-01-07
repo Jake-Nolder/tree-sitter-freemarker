@@ -1,11 +1,3 @@
-<#assign name in namespacehash>
-  <#assign para=val>
-</#assign>
+<#list them as index >
 
-<#global name in namespacehash>
-  <#global para=val>
-</#global>
-
-<#local name in namespacehash>
-  <#local para=val>
-</#local>
+</#list>

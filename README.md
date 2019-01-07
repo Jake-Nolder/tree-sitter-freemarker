@@ -20,6 +20,7 @@ Directives currently included:
 * include
 * items
 * list
+* local
 * lt
 * macro
 * nested

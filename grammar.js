@@ -179,7 +179,7 @@ module.exports = grammar({
     ),
 
     switch_middle: $ => choice(
-      $.case,
+      $.case
       //$.directive
     ),
 
@@ -332,7 +332,7 @@ module.exports = grammar({
       $.end_local
     ),
 
-    end_local: $ => seq('</#local>'),
+    end_local: $ => seq('</#local>')
 
     /*********** END BLOCK EXPRESSIONS  ***********/
   }
