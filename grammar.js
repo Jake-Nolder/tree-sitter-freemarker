@@ -38,13 +38,8 @@ module.exports = grammar({
     ),
 
     parameter_group: $ => choice(
-      $.paramGroup,
       $.binary_expression,
       $.unary_expression
-    ),
-
-    paramGroup: $ => seq(
-      prec(1, $.string)
     ),
 
     unary_expression: $ => seq(
@@ -52,50 +47,111 @@ module.exports = grammar({
     ),
 
     binary_expression: $ => seq(
-      prec.left(1, seq($.parameter, $.operator, repeat1($.expression) ))
+      prec.left(1, seq($.expression, $.operator, repeat1($.expression) ))
     ),
 
     expression: $ => choice(
-      token(/[a-zA-Z0-9\_]+/),
-      token(/\.([a-zA-Z0-9\_]+)/),
-      $.curveBracket,
+      $.string,
+      $.number,
+      $.boolean,
       $.sequence,
-      prec.left(1, seq($.string, ',')),
-      $.string
+      $.hash,
+      $.spec_var,
+      $.top_level,
+      $.method
     ),
 
-    curveBracket: $ => seq(
+    group: $ => seq(
       '(',
       repeat($.parameter_group),
       ')'
     ),
 
-    sequence: $ => seq(
-      '[',
-      repeat($.expression),
-      ']'
-    ),
-
-    identifier: $ => prec(1, /[a-zA-Z0-9\_]+/),
-
-    name: $ => $.identifier,
-
-    parameter: $ => choice(
-      token(/[a-zA-Z0-9\_]+/),
-      $.string
-    ),
-
     operator: $ => choice(
       'as',
       'using',
-      '=',
+      ',',
+
+      //SEQUENCE OPERATIONS
+      '..',
+      '..<',
+      '..!',
+
+      //HASH OPERATIONS
+      ':',
+
+      //ARITHMETICAL OPERATIONS
+      '*',
+      '+',
+      '/',
+      '-',
+      '%',
+
+      //COPARISON OPERATIONS
+      '==',
+      '!=',
+      '<',
+      '>',
+      '>=',
+      '<=',
+      'lt',
+      'lte',
+      'gt',
+      'gte',
+
+      //LOGICAL OPERATIONS
       '!',
-      '+'
+      '&&',
+      '||',
+      '??',
+
+      //TODO: Built-ins
+
+      //ASSIGNMENT OPERATIONS
+      '=',
+      '+=',
+      '-=',
+      '*=',
+      '/=',
+      '%=',
+      '++',
+      '--'
     ),
 
+    //DIRECT Values
     string: $ => choice(
-      token(/\"([^\"]*)\"/),
-      token(/\'([^\']*)\'/)
+      token(/\"(\\.|[^\"])*\"/),
+      token(/\'(\\.|[^\'])*\'/)
+    ),
+
+    number: $ => /[0-9]/,
+
+    boolean: $ => seq(
+      'true',
+      'false'
+    ),
+
+    sequence: $ => seq(
+      '[',
+      repeat(seq($.expression, optional(',') )),
+      ']'
+    ),
+
+    hash: $ => seq(
+      '{',
+      repeat($.expression),
+      '}'
+    ),
+
+    //RETRIEVE Values
+    top_level: $ => /\w+/,
+
+    spec_var: $ => /\.([a-zA-Z0-9\_]+)/,
+
+    //METHOD Call
+    method: $ => seq(
+      choice($.top_level, $.spec_var),
+      $.group
     ),
 
     /********** LIST EXPRESSION **************/

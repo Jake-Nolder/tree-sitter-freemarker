@@ -1,1 +1,2 @@
-<#assign roles = lib.restadminV2("SELECT name FROM roles WHERE users.id = '"+user.id+"'") >
+  <#assign allowedRoles = ["Administrator","MYOB Moderator","MYOB Product Manager","MYOB Staff","MYOB Staff Post"] >
+    <#assign param1=value1 param2=value2 >

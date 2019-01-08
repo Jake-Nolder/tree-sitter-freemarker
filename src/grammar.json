@@ -123,28 +123,11 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "paramGroup"
-        },
-        {
-          "type": "SYMBOL",
           "name": "binary_expression"
         },
         {
           "type": "SYMBOL",
           "name": "unary_expression"
-        }
-      ]
-    },
-    "paramGroup": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "PREC",
-          "value": 1,
-          "content": {
-            "type": "SYMBOL",
-            "name": "string"
-          }
         }
       ]
     },
@@ -184,7 +167,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "parameter"
+                "name": "expression"
               },
               {
                 "type": "SYMBOL",
@@ -206,51 +189,40 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "[a-zA-Z0-9\\_]+"
-          }
-        },
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "\\.([a-zA-Z0-9\\_]+)"
-          }
+          "type": "SYMBOL",
+          "name": "string"
         },
         {
           "type": "SYMBOL",
-          "name": "curveBracket"
+          "name": "number"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "boolean"
         },
         {
           "type": "SYMBOL",
           "name": "sequence"
         },
         {
-          "type": "PREC_LEFT",
-          "value": 1,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "string"
-              },
-              {
-                "type": "STRING",
-                "value": ","
-              }
-            ]
-          }
+          "type": "SYMBOL",
+          "name": "hash"
         },
         {
           "type": "SYMBOL",
-          "name": "string"
+          "name": "spec_var"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "top_level"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "method"
         }
       ]
     },
-    "curveBracket": {
+    "group": {
       "type": "SEQ",
       "members": [
         {
@@ -270,54 +242,6 @@
         }
       ]
     },
-    "sequence": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "["
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "expression"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "]"
-        }
-      ]
-    },
-    "identifier": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "PATTERN",
-        "value": "[a-zA-Z0-9\\_]+"
-      }
-    },
-    "name": {
-      "type": "SYMBOL",
-      "name": "identifier"
-    },
-    "parameter": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "[a-zA-Z0-9\\_]+"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "string"
-        }
-      ]
-    },
     "operator": {
       "type": "CHOICE",
       "members": [
@@ -331,7 +255,83 @@
         },
         {
           "type": "STRING",
-          "value": "="
+          "value": ","
+        },
+        {
+          "type": "STRING",
+          "value": ".."
+        },
+        {
+          "type": "STRING",
+          "value": "..<"
+        },
+        {
+          "type": "STRING",
+          "value": "..!"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "STRING",
+          "value": "+"
+        },
+        {
+          "type": "STRING",
+          "value": "/"
+        },
+        {
+          "type": "STRING",
+          "value": "-"
+        },
+        {
+          "type": "STRING",
+          "value": "%"
+        },
+        {
+          "type": "STRING",
+          "value": "=="
+        },
+        {
+          "type": "STRING",
+          "value": "!="
+        },
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        },
+        {
+          "type": "STRING",
+          "value": ">="
+        },
+        {
+          "type": "STRING",
+          "value": "<="
+        },
+        {
+          "type": "STRING",
+          "value": "lt"
+        },
+        {
+          "type": "STRING",
+          "value": "lte"
+        },
+        {
+          "type": "STRING",
+          "value": "gt"
+        },
+        {
+          "type": "STRING",
+          "value": "gte"
         },
         {
           "type": "STRING",
@@ -339,7 +339,47 @@
         },
         {
           "type": "STRING",
-          "value": "+"
+          "value": "&&"
+        },
+        {
+          "type": "STRING",
+          "value": "||"
+        },
+        {
+          "type": "STRING",
+          "value": "??"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "STRING",
+          "value": "+="
+        },
+        {
+          "type": "STRING",
+          "value": "-="
+        },
+        {
+          "type": "STRING",
+          "value": "*="
+        },
+        {
+          "type": "STRING",
+          "value": "/="
+        },
+        {
+          "type": "STRING",
+          "value": "%="
+        },
+        {
+          "type": "STRING",
+          "value": "++"
+        },
+        {
+          "type": "STRING",
+          "value": "--"
         }
       ]
     },
@@ -350,15 +390,119 @@
           "type": "TOKEN",
           "content": {
             "type": "PATTERN",
-            "value": "\\\"([^\\\"]*)\\\""
+            "value": "\\\"(\\\\.|[^\\\"])*\\\""
           }
         },
         {
           "type": "TOKEN",
           "content": {
             "type": "PATTERN",
-            "value": "\\'([^\\']*)\\'"
+            "value": "\\'(\\\\.|[^\\'])*\\'"
           }
+        }
+      ]
+    },
+    "number": {
+      "type": "PATTERN",
+      "value": "[0-9]"
+    },
+    "boolean": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "true"
+        },
+        {
+          "type": "STRING",
+          "value": "false"
+        }
+      ]
+    },
+    "sequence": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "expression"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
+    "hash": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "expression"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "top_level": {
+      "type": "PATTERN",
+      "value": "\\w+"
+    },
+    "spec_var": {
+      "type": "PATTERN",
+      "value": "\\.([a-zA-Z0-9\\_]+)"
+    },
+    "method": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "top_level"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "spec_var"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "group"
         }
       ]
     },
