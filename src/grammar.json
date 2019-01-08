@@ -114,6 +114,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "user_defined"
+        },
+        {
+          "type": "SYMBOL",
           "name": "visit"
         }
       ]
@@ -631,6 +635,51 @@
               {
                 "type": "SYMBOL",
                 "name": "group"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "user_defined": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PREC_LEFT",
+          "value": 1,
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "<@"
+              },
+              {
+                "type": "TOKEN",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "\\w+"
+                }
+              },
+              {
+                "type": "REPEAT",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "parameter_group"
+                }
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ">"
+                  },
+                  {
+                    "type": "STRING",
+                    "value": "/>"
+                  }
+                ]
               }
             ]
           }

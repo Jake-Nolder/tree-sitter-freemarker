@@ -34,6 +34,7 @@ module.exports = grammar({
       $.stop,
       $.switch,
       $.t,
+      $.user_defined,
       $.visit
     ),
 
@@ -161,6 +162,14 @@ module.exports = grammar({
     // method: $ => seq(
     //   $.group
     // ),
+
+    /********** USER DEFINED DIRECTIVES ***********/
+
+    user_defined: $ => seq(
+      prec.left(1, seq('<@', token(/\w+/), repeat($.parameter_group), choice('>', '/>') ))
+    ),
+
+    /********** END USER DEFINED DIRECTIVES ***********/
 
     /********** LIST EXPRESSION **************/
 
