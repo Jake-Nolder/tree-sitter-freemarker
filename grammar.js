@@ -38,28 +38,31 @@ module.exports = grammar({
     ),
 
     parameter_group: $ => choice(
-      $.binary_expression,
-      $.unary_expression
+      $.as_expression,
+      $.expression,
+      $.built_in
     ),
 
-    unary_expression: $ => seq(
-      prec.left(1, seq($.operator, repeat1($.expression) ))
-    ),
-
-    binary_expression: $ => seq(
-      prec.left(1, seq($.expression, $.operator, repeat1($.expression) ))
+    as_expression: $ => seq(
+      prec.right(1, seq( repeat(prec(2, $.type)), alias(seq('as'), $.as), repeat1($.type) ))
     ),
 
     expression: $ => choice(
-      $.string,
-      $.number,
-      $.boolean,
-      $.sequence,
-      $.hash,
-      $.spec_var,
-      $.top_level,
-      $.method
+      prec.left(1, seq( repeat1(prec(2, $.type)), optional($.operator), optional(repeat1($.type)) )),
+      prec.left(1, seq($.operator, optional(repeat1($.type))))
     ),
+
+    type: $ => choice(
+      $.boolean,
+      $.hash,
+      $.number,
+      $.sequence,
+      $.spec_var,
+      $.string,
+      $.top_level
+    ),
+
+    built_in: $ => prec.left(1, seq('?', $.top_level, optional($.group) )),
 
     group: $ => seq(
       '(',
@@ -68,7 +71,6 @@ module.exports = grammar({
     ),
 
     operator: $ => choice(
-      'as',
       'using',
       ',',
 
@@ -106,6 +108,7 @@ module.exports = grammar({
       '??',
 
       //TODO: Built-ins
+      //'?',
 
       //ASSIGNMENT OPERATIONS
       '=',
@@ -144,15 +147,20 @@ module.exports = grammar({
     ),
 
     //RETRIEVE Values
-    top_level: $ => /\w+/,
+    top_level: $ => choice(
+      token(/\w+/),
+      prec.left(1, seq(token(/\w+/), $.group))
+    ),
 
-    spec_var: $ => /\.([a-zA-Z0-9\_]+)/,
+    spec_var: $ => choice(
+      token(/\.([a-zA-Z0-9\_]+)/),
+      prec.left(1, seq(token(/\.([a-zA-Z0-9\_]+)/), $.group))
+    ),
 
     //METHOD Call
-    method: $ => seq(
-      choice($.top_level, $.spec_var),
-      $.group
-    ),
+    // method: $ => seq(
+    //   $.group
+    // ),
 
     /********** LIST EXPRESSION **************/
 
@@ -390,7 +398,7 @@ module.exports = grammar({
     /*********** BLOCK EXPRESSIONS  ***********/
 
     assign: $ => choice(
-      seq('<#assign', repeat($.parameter_group), '>'),
+      prec.left(1, seq('<#assign', repeat($.parameter_group), '>')),
       $.end_assign
     ),
 
