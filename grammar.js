@@ -49,8 +49,8 @@ module.exports = grammar({
     ),
 
     expression: $ => choice(
-      prec.left(1, seq( repeat1(prec(2, $.type)), optional($.operator), optional(repeat1($.type)) )),
-      prec.left(1, seq($.operator, optional(repeat1($.type))))
+      prec.right(1, seq( repeat1(prec(2, $.type)), optional($.operator), optional(repeat1($.type)) )),
+      //prec.left(1, seq($.operator, repeat($.type)))
     ),
 
     type: $ => choice(
@@ -227,7 +227,7 @@ module.exports = grammar({
     /********** IF EXPRESSION ***********/
 
     if: $ => seq(
-      prec.left(1, seq('<#if', repeat($.parameter_group), '>') ),
+      prec.left(1, seq('<#if', repeat1($.parameter_group), '>') ),
       repeat($.if_middle),
       optional($.if_else),
       seq('</#if>')
@@ -298,7 +298,7 @@ module.exports = grammar({
     /*********** MACRO EXPRESSION  ***********/
 
     macro: $ => seq(
-      seq('<#macro', repeat($.parameter_group), '>'),
+      prec.left(1, seq('<#macro', repeat($.parameter_group), '>') ),
       repeat($.macro_middle),
       seq('</#macro>')
     ),
@@ -310,7 +310,7 @@ module.exports = grammar({
     ),
 
     nested: $ => seq(
-      seq('<#nested', repeat($.parameter_group), '>')
+      prec.left(1, seq('<#nested', repeat($.parameter_group), '>') )
     ),
 
     /*********** END MACRO EXPRESSION  ***********/
@@ -345,21 +345,15 @@ module.exports = grammar({
     ),
 
     ftl: $ => seq(
-      '<#ftl',
-      repeat($.parameter_group),
-      '>'
+      prec.left(1, seq('<#ftl', repeat($.parameter_group), '>') )
     ),
 
     import: $ => seq(
-      '<#import',
-      repeat($.parameter_group),
-      '>'
+      prec.left(1, seq('<#import', repeat($.parameter_group), '>') )
     ),
 
     include: $ => seq(
-      '<#include',
-      repeat($.parameter_group),
-      '>'
+      prec.left(1, seq('<#include', repeat($.parameter_group), '>') )
     ),
 
     lt: $ => seq(
@@ -371,9 +365,7 @@ module.exports = grammar({
     ),
 
     recurse: $ => seq(
-      '<#recurse',
-      repeat($.parameter_group),
-      '>'
+      prec.left(1, seq('<#recurse', repeat($.parameter_group), '>') )
     ),
 
     rt: $ => seq(
@@ -381,9 +373,7 @@ module.exports = grammar({
     ),
 
     setting: $ => seq(
-      '<#setting',
-      repeat($.parameter_group),
-      '>'
+      prec.left(1, seq('<#setting', repeat($.parameter_group), '>') )
     ),
 
     stop: $ => seq(
@@ -395,9 +385,7 @@ module.exports = grammar({
     ),
 
     visit: $ => seq(
-      '<#visit',
-      repeat($.parameter_group),
-      '>'
+      prec.left(1, seq('<#visit', repeat($.parameter_group), '>') )
     ),
 
     /*********** END SINGLE EXPRESSIONS  ***********/
@@ -405,21 +393,21 @@ module.exports = grammar({
     /*********** BLOCK EXPRESSIONS  ***********/
 
     assign: $ => choice(
-      prec.left(1, seq('<#assign', repeat($.parameter_group), '>')),
+      prec.left(1, seq('<#assign', repeat($.parameter_group), '>') ),
       $.end_assign
     ),
 
     end_assign: $ => seq('</#assign>'),
 
     global: $ => choice(
-      seq('<#global', repeat($.parameter_group), '>'),
+      prec.left(1, seq('<#global', repeat($.parameter_group), '>') ),
       $.end_global
     ),
 
     end_global: $ => seq('</#global>'),
 
     local: $ => choice(
-      seq('<#local', repeat($.parameter_group), '>'),
+      prec.left(1, seq('<#local', repeat($.parameter_group), '>') ),
       $.end_local
     ),
 
