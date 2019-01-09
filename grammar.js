@@ -94,7 +94,6 @@ module.exports = grammar({
       '==',
       '!=',
       '<',
-      '>=',
       '<=',
       'lt',
       'lte',
