@@ -1,3 +1,1 @@
-<#if config.getString("phase", "prod") == "prod">
-  -
-</#if>
+${text.format("myob.edit-profile-bar.change-password.title")}

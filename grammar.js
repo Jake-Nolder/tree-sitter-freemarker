@@ -7,10 +7,15 @@ module.exports = grammar({
 
     _definition: $ => choice(
       $.comment,
-      $.directive
+      $.directive,
+      $.interpolation
     ),
 
     comment: $ => /(\<\#\-\-).+(\-\-\>)/,
+
+    interpolation: $ => seq(
+      prec.left(1, seq('${', repeat($.expression), '}') )
+    ),
 
     directive: $ => choice(
       $.assign,
