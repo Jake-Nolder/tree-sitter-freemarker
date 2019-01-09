@@ -14,7 +14,7 @@ module.exports = grammar({
     comment: $ => /(\<\#\-\-).+(\-\-\>)/,
 
     interpolation: $ => seq(
-      prec.left(1, seq('${', repeat($.expression), '}') )
+      prec.left(1, seq('$', alias('{', $.bracket), repeat($.expression), alias('}', $.bracket)) )
     ),
 
     directive: $ => choice(
@@ -55,7 +55,7 @@ module.exports = grammar({
 
     expression: $ => choice(
       prec.right(1, seq( repeat1(prec(2, $.type)), optional($.operator), optional(repeat1($.type)) )),
-      //prec.left(1, seq($.operator, repeat($.type)))
+      prec.left(1, seq($.operator, repeat($.type)))
     ),
 
     type: $ => choice(
@@ -63,7 +63,7 @@ module.exports = grammar({
       $.hash,
       $.number,
       $.sequence,
-      $.spec_var,
+      //$.spec_var,
       $.string,
       $.top_level
     ),
@@ -71,9 +71,15 @@ module.exports = grammar({
     built_in: $ => prec.left(1, seq('?', $.top_level, optional($.group) )),
 
     group: $ => seq(
-      '(',
+      alias('(', $.bracket),
       repeat($.parameter_group),
-      ')'
+      alias(')', $.bracket)
+    ),
+
+    bracket: $ => choice(
+      '<#',
+      '</#',
+      '>'
     ),
 
     operator: $ => choice(
@@ -111,18 +117,8 @@ module.exports = grammar({
       '||',
       '??',
 
-      //TODO: Built-ins
-      //'?',
-
       //ASSIGNMENT OPERATIONS
-      '=',
-      '+=',
-      '-=',
-      '*=',
-      '/=',
-      '%=',
-      '++',
-      '--'
+      '='
     ),
 
     //DIRECT Values
@@ -139,21 +135,23 @@ module.exports = grammar({
     ),
 
     sequence: $ => seq(
-      '[',
+      alias('[', $.bracket),
       repeat(seq($.expression, optional(',') )),
-      ']'
+      alias(']', $.bracket)
     ),
 
     hash: $ => seq(
-      '{',
+      alias('{', $.bracket),
       repeat($.expression),
-      '}'
+      alias('}', $.bracket)
     ),
 
     //RETRIEVE Values
     top_level: $ => choice(
       token(/\w+/),
-      prec.left(1, seq(token(/\w+/), $.group))
+      prec.left(1, seq(token(/\w+/), $.group)),
+      prec.left(1, seq(token(/\w+/), alias(repeat(token(/\.([a-zA-Z0-9\_]+)/)), $.sub_level)) ),
+      prec.left(1, seq(token(/\w+/), alias(repeat(token(/\.([a-zA-Z0-9\_]+)/)), $.sub_level), optional($.group)) )
     ),
 
     spec_var: $ => choice(
@@ -177,7 +175,7 @@ module.exports = grammar({
     /********** LIST EXPRESSION **************/
 
     list: $ => seq(
-      seq('<#list', $.parameter_group, '>'),
+      seq(prec.left(1, seq(alias('<#', $.bracket), 'list')), $.parameter_group, alias('>', $.bracket)),
       repeat($.list_middle),
       optional($.list_else),
       seq('</#list>')
