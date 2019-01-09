@@ -229,7 +229,7 @@ module.exports = grammar({
     /********** IF EXPRESSION ***********/
 
     if: $ => seq(
-      seq('<#if', repeat($.parameter_group), '>'),
+      prec.left(1, seq('<#if', repeat($.parameter_group), '>') ),
       repeat($.if_middle),
       optional($.if_else),
       seq('</#if>')
@@ -241,7 +241,7 @@ module.exports = grammar({
     ),
 
     elseif: $ => seq(
-      seq('<#elseif', repeat($.parameter_group), '>')
+      prec.left(1, seq('<#elseif', repeat($.parameter_group), '>') )
     ),
 
     if_middle: $ => choice(
@@ -254,14 +254,14 @@ module.exports = grammar({
     /********** SWITCH EXPRESSION ***********/
 
     switch: $ => seq(
-      seq('<#switch', $.parameter_group, '>'),
+      prec.left(1, seq('<#switch', $.parameter_group, '>') ),
       repeat($.switch_middle),
       optional($.default),
       seq('</#switch>')
     ),
 
     case: $ => seq(
-      seq('<#case', $.parameter_group, '>'),
+      prec.left(1, seq('<#case', $.parameter_group, '>') ),
       repeat($.directive),
       repeat($.break)
     ),
@@ -281,7 +281,7 @@ module.exports = grammar({
     /*********** FUNCTION EXPRESSION  ***********/
 
     function: $ => seq(
-      seq('<#function', repeat($.parameter_group), '>'),
+      prec.left(1, seq('<#function', repeat($.parameter_group), '>') ),
       repeat($.function_middle),
       seq('</#function>')
     ),
@@ -292,7 +292,7 @@ module.exports = grammar({
     ),
 
     return: $ => seq(
-      seq('<#return', optional($.parameter_group), '>')
+      prec.left(1, seq('<#return', optional($.parameter_group), '>') )
     ),
 
     /*********** END FUNCTION EXPRESSION  ***********/
