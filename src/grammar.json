@@ -400,23 +400,6 @@
         }
       ]
     },
-    "bracket": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "<#"
-        },
-        {
-          "type": "STRING",
-          "value": "</#"
-        },
-        {
-          "type": "STRING",
-          "value": ">"
-        }
-      ]
-    },
     "operator": {
       "type": "CHOICE",
       "members": [
@@ -891,13 +874,8 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "STRING",
-                      "value": "<#"
-                    },
-                    "named": true,
-                    "value": "bracket"
+                    "type": "STRING",
+                    "value": "<#"
                   },
                   {
                     "type": "STRING",
@@ -911,13 +889,8 @@
               "name": "parameter_group"
             },
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "STRING",
-                "value": ">"
-              },
-              "named": true,
-              "value": "bracket"
+              "type": "STRING",
+              "value": ">"
             }
           ]
         },

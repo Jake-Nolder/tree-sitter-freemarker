@@ -8,6 +8,7 @@ module.exports = grammar({
     _definition: $ => choice(
       $.comment,
       $.directive,
+      //$.html,
       $.interpolation
     ),
 
@@ -69,18 +70,18 @@ module.exports = grammar({
       $.top_level
     ),
 
+    // html: $ => seq(
+    //   seq(prec.left(1,seq('<', $.top_level)),  optional(repeat($.parameter_group)), '>'),
+    //   repeat($._definition),
+    //   seq('</', $.top_level, '>'),
+    // ),
+
     built_in: $ => prec.left(1, seq('?', $.top_level, optional($.group) )),
 
     group: $ => seq(
       alias('(', $.bracket),
       repeat1($.parameter_group),
       alias(')', $.bracket)
-    ),
-
-    bracket: $ => choice(
-      '<#',
-      '</#',
-      '>'
     ),
 
     operator: $ => choice(
@@ -202,7 +203,7 @@ module.exports = grammar({
     /********** LIST EXPRESSION **************/
 
     list: $ => seq(
-      seq(prec.left(1, seq(alias('<#', $.bracket), 'list')), $.parameter_group, alias('>', $.bracket)),
+      seq(prec.left(1, seq('<#', 'list')), $.parameter_group, '>'),
       repeat($.list_middle),
       optional($.list_else),
       seq('</#list>')
