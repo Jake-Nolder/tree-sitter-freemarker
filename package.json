@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-freemarker",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Tree-sitter Parser for the Freemarker language",
   "main": "index.js",
   "keywords": [
@@ -22,10 +22,10 @@
   "homepage": "https://github.com/Jake-Nolder/tree-sitter-freemarker#readme",
   "deprecated": false,
   "dependencies": {
-    "nan": "^2.12.1"
+    "nan": "^2.10.0"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.13.10"
+    "tree-sitter-cli": "^0.13.8"
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
