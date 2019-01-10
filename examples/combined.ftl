@@ -5,7 +5,7 @@
   <#assign allowedRoles = ["Administrator","MYOB Moderator","MYOB Product Manager","MYOB Staff","MYOB Staff Post"] >
   <#if roles??>
   	<#list roles.data.items as role>
-		<#if allowedRoles?seq_contains(role.name) || .hello == this>
+		<#if allowedRoles?seq_contains(role.name) || test == (.now)>
 			<#assign showReports = "true" >
         </#if>
 	</#list>

@@ -313,6 +313,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "group"
+        },
+        {
+          "type": "SYMBOL",
           "name": "hash"
         },
         {
@@ -379,7 +383,7 @@
           "value": "bracket"
         },
         {
-          "type": "REPEAT",
+          "type": "REPEAT1",
           "content": {
             "type": "SYMBOL",
             "name": "parameter_group"
@@ -419,6 +423,10 @@
         {
           "type": "STRING",
           "value": "using"
+        },
+        {
+          "type": "STRING",
+          "value": "is"
         },
         {
           "type": "STRING",
@@ -729,11 +737,99 @@
       "members": [
         {
           "type": "STRING",
-          "value": "hello"
+          "value": "auto_esc"
         },
         {
           "type": "STRING",
-          "value": "auto_esc"
+          "value": "caller_template_name"
+        },
+        {
+          "type": "STRING",
+          "value": "current_template_name"
+        },
+        {
+          "type": "STRING",
+          "value": "data_model"
+        },
+        {
+          "type": "STRING",
+          "value": "error"
+        },
+        {
+          "type": "STRING",
+          "value": "globals"
+        },
+        {
+          "type": "STRING",
+          "value": "incompatible_improvements"
+        },
+        {
+          "type": "STRING",
+          "value": "lang"
+        },
+        {
+          "type": "STRING",
+          "value": "locale"
+        },
+        {
+          "type": "STRING",
+          "value": "locale_object"
+        },
+        {
+          "type": "STRING",
+          "value": "locals"
+        },
+        {
+          "type": "STRING",
+          "value": "main"
+        },
+        {
+          "type": "STRING",
+          "value": "main_template_name"
+        },
+        {
+          "type": "STRING",
+          "value": "namespace"
+        },
+        {
+          "type": "STRING",
+          "value": "node"
+        },
+        {
+          "type": "STRING",
+          "value": "now"
+        },
+        {
+          "type": "STRING",
+          "value": "output_encoding"
+        },
+        {
+          "type": "STRING",
+          "value": "get_optional_template"
+        },
+        {
+          "type": "STRING",
+          "value": "pass"
+        },
+        {
+          "type": "STRING",
+          "value": "template_name"
+        },
+        {
+          "type": "STRING",
+          "value": "url_escaping_charset"
+        },
+        {
+          "type": "STRING",
+          "value": "output_format"
+        },
+        {
+          "type": "STRING",
+          "value": "vars"
+        },
+        {
+          "type": "STRING",
+          "value": "version"
         }
       ]
     },

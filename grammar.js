@@ -60,6 +60,7 @@ module.exports = grammar({
 
     type: $ => choice(
       $.boolean,
+      $.group,
       $.hash,
       $.number,
       $.sequence,
@@ -72,7 +73,7 @@ module.exports = grammar({
 
     group: $ => seq(
       alias('(', $.bracket),
-      repeat($.parameter_group),
+      repeat1($.parameter_group),
       alias(')', $.bracket)
     ),
 
@@ -84,7 +85,7 @@ module.exports = grammar({
 
     operator: $ => choice(
       'using',
-      'is'
+      'is',
       ',',
 
       //SEQUENCE OPERATIONS
@@ -159,7 +160,6 @@ module.exports = grammar({
     ),
 
     _spec_var_name: $ => choice(
-      'hello',
       'auto_esc',
       'caller_template_name',
       'current_template_name',
@@ -175,6 +175,7 @@ module.exports = grammar({
       'main_template_name',
       'namespace',
       'node',
+      'now',
       'output_encoding',
       'get_optional_template',
       'pass',
