@@ -325,6 +325,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "spec_var"
+        },
+        {
+          "type": "SYMBOL",
           "name": "string"
         },
         {
@@ -680,37 +684,6 @@
                 },
                 "named": true,
                 "value": "sub_level"
-              }
-            ]
-          }
-        },
-        {
-          "type": "PREC_LEFT",
-          "value": 1,
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "TOKEN",
-                "content": {
-                  "type": "PATTERN",
-                  "value": "\\w+"
-                }
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "TOKEN",
-                    "content": {
-                      "type": "PATTERN",
-                      "value": "\\.([a-zA-Z0-9\\_]+)"
-                    }
-                  }
-                },
-                "named": true,
-                "value": "sub_level"
               },
               {
                 "type": "CHOICE",
@@ -730,15 +703,8 @@
       ]
     },
     "spec_var": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "PATTERN",
-            "value": "\\.([a-zA-Z0-9\\_]+)"
-          }
-        },
         {
           "type": "PREC_LEFT",
           "value": 1,
@@ -746,18 +712,28 @@
             "type": "SEQ",
             "members": [
               {
-                "type": "TOKEN",
-                "content": {
-                  "type": "PATTERN",
-                  "value": "\\.([a-zA-Z0-9\\_]+)"
-                }
+                "type": "STRING",
+                "value": "."
               },
               {
                 "type": "SYMBOL",
-                "name": "group"
+                "name": "_spec_var_name"
               }
             ]
           }
+        }
+      ]
+    },
+    "_spec_var_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "hello"
+        },
+        {
+          "type": "STRING",
+          "value": "auto_esc"
         }
       ]
     },

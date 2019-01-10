@@ -63,7 +63,7 @@ module.exports = grammar({
       $.hash,
       $.number,
       $.sequence,
-      //$.spec_var,
+      $.spec_var,
       $.string,
       $.top_level
     ),
@@ -84,6 +84,7 @@ module.exports = grammar({
 
     operator: $ => choice(
       'using',
+      'is'
       ',',
 
       //SEQUENCE OPERATIONS
@@ -150,13 +151,38 @@ module.exports = grammar({
     top_level: $ => choice(
       token(/\w+/),
       prec.left(1, seq(token(/\w+/), $.group)),
-      prec.left(1, seq(token(/\w+/), alias(repeat(token(/\.([a-zA-Z0-9\_]+)/)), $.sub_level)) ),
       prec.left(1, seq(token(/\w+/), alias(repeat(token(/\.([a-zA-Z0-9\_]+)/)), $.sub_level), optional($.group)) )
     ),
 
-    spec_var: $ => choice(
-      token(/\.([a-zA-Z0-9\_]+)/),
-      prec.left(1, seq(token(/\.([a-zA-Z0-9\_]+)/), $.group))
+    spec_var: $ => seq(
+      prec.left(1, seq('.', $._spec_var_name) )
+    ),
+
+    _spec_var_name: $ => choice(
+      'hello',
+      'auto_esc',
+      'caller_template_name',
+      'current_template_name',
+      'data_model',
+      'error',
+      'globals',
+      'incompatible_improvements',
+      'lang',
+      'locale',
+      'locale_object',
+      'locals',
+      'main',
+      'main_template_name',
+      'namespace',
+      'node',
+      'output_encoding',
+      'get_optional_template',
+      'pass',
+      'template_name',
+      'url_escaping_charset',
+      'output_format',
+      'vars',
+      'version'
     ),
 
     //METHOD Call
