@@ -203,7 +203,7 @@ module.exports = grammar({
     /********** LIST EXPRESSION **************/
 
     list: $ => seq(
-      seq(prec.left(1, seq('<#', 'list')), $.parameter_group, '>'),
+      seq(prec.left(1, seq('<#', 'list')), repeat($.parameter_group), '>'),
       repeat($.list_middle),
       optional($.list_else),
       seq('</#list>')

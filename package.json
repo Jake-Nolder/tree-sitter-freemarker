@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-freemarker",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Tree-sitter Parser for the Freemarker language",
   "main": "index.js",
   "keywords": [
@@ -25,34 +25,9 @@
     "nan": "^2.12.1"
   },
   "devDependencies": {
-    "tree-sitter-cli": "^0.13.16"
+    "tree-sitter-cli": "^0.13.5"
   },
   "scripts": {
-    "build": "tree-sitter generate && node-gyp build",
-    "test": "tree-sitter test && tree-sitter parse examples --quiet --time",
-    "debug": "tree-sitter parse examples/combined.ftl",
-    "debugLoud": "tree-sitter parse examples/combined.ftl --debug",
-    "debug_assign": "tree-sitter parse examples/assign_example.txt",
-    "debug_attempt_recover": "tree-sitter parse examples/attempt_recover_example.txt",
-    "debug_autoesc": "tree-sitter parse examples/autoesc_example.txt",
-    "debug_compress": "tree-sitter parse examples/compress_example.txt",
-    "debug_flush": "tree-sitter parse examples/flush_example.txt",
-    "debug_ftl": "tree-sitter parse examples/ftl_example.txt",
-    "debug_function": "tree-sitter parse examples/function_example.txt",
-    "debug_global": "tree-sitter parse examples/global_example.txt",
-    "debug_if": "tree-sitter parse examples/if_example.txt",
-    "debug_import": "tree-sitter parse examples/import_example.txt",
-    "debug_include": "tree-sitter parse examples/include_example.txt",
-    "debug_list": "tree-sitter parse examples/list_example.txt",
-    "debug_local": "tree-sitter parse examples/local_example.txt",
-    "debug_macro": "tree-sitter parse examples/macro_example.txt",
-    "debug_noautoesc": "tree-sitter parse examples/noautoesc_example.txt",
-    "debug_noparse": "tree-sitter parse examples/noparse_example.txt",
-    "debug_nt": "tree-sitter parse examples/nt_example.txt",
-    "debug_outputformat": "tree-sitter parse examples/outputformat_example.txt",
-    "debug_setting": "tree-sitter parse examples/setting_example.txt",
-    "debug_stop": "tree-sitter parse examples/stop_example.txt",
-    "debug_switch": "tree-sitter parse examples/switch_example.txt",
-    "debug_trim": "tree-sitter parse examples/t_lt_rt_example.txt"
+    "build": "tree-sitter generate && node-gyp build"
   }
 }

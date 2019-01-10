@@ -885,8 +885,11 @@
               }
             },
             {
-              "type": "SYMBOL",
-              "name": "parameter_group"
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "parameter_group"
+              }
             },
             {
               "type": "STRING",
